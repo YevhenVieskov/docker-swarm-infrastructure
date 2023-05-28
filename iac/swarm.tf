@@ -43,12 +43,12 @@ resource "aws_instance" "swarm-manager" {
   provisioner "remote-exec" {
     inline = [      
       "docker swarm init", 
-      "docker swarm join-token --quiet worker > /home/ubuntu/token-worker",
-      "docker swarm join-token --quiet manager > /home/ubuntu/token-manager",      
+      "docker swarm join-token --quiet worker > /home/ubuntu/token",
+      #"docker swarm join-token --quiet manager > /home/ubuntu/token-manager",      
       "docker node ls",
       "var=${aws_instance.swarm-manager[count.index].private_ip}",
       "var2=$(echo $var | sed s/[.]/-/g)",      
-      "docker node update --label-add manager=yes  ip-$var2"
+      #"docker node update --label-add manager=yes  ip-$var2"
     ]
       
   }
@@ -101,7 +101,7 @@ resource "aws_instance" "swarm-worker" {
       "docker node ls",
       "var=${aws_instance.swarm-manager[count.index].private_ip}",
       "var2=$(echo $var | sed s/[.]/-/g)",      
-      "docker node update --label-add manager=yes  ip-$var2"
+      #"docker node update --label-add manager=yes  ip-$var2"
     ]
   }
   
