@@ -50,7 +50,7 @@ variable "udata_path" {
 variable "private_key_path" {
   description = "The path to an EC2 Key Pair"
   type        = string
-  default     = "/home/yevhenv/attract_group/attract_key.pem"
+  default     = "~/attract_key.pem"
 }
 
 variable "dest_private_key_path" {
