@@ -1,0 +1,7 @@
+- hosts: localhost
+  become: yes
+  vars:
+    docker_machine_version: 0.16.2
+  roles:
+     - giovtorres.bash-completion
+     - giovtorres.docker-machine

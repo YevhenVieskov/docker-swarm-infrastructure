@@ -1,0 +1,18 @@
+- hosts: localhost
+  become: yes
+  vars:
+    pip_install_packages:
+      - name: docker
+    # Edition can be one of: 'ce' (Community Edition) or 'ee' (Enterprise Edition).
+    docker_edition: 'ce'
+    docker_packages:
+      - "docker-{{ docker_edition }}"
+      - "docker-{{ docker_edition }}-cli"
+      - "docker-{{ docker_edition }}-rootless-extras"
+      - "docker-buildx-plugin"
+    docker_packages_state: present
+    docker_compose_version: "v2.18.0"
+
+  roles:
+    - geerlingguy.pip
+    - geerlingguy.docker

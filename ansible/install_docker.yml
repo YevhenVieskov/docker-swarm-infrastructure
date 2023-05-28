@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  vars: 
+    docker_group: docker
+    remote_user:  ubuntu
+  become: yes  
+  roles:
+    - role: install_docker
+
