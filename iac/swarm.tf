@@ -43,7 +43,8 @@ resource "aws_instance" "swarm-manager" {
   provisioner "remote-exec" {
     inline = [      
       "docker swarm init", 
-      "docker swarm join-token --quiet worker > /home/ubuntu/token",
+      "docker swarm join-token --quiet worker > /home/ubuntu/token-worker",
+      "docker swarm join-token --quiet manager > /home/ubuntu/token-manager",      
       "docker node ls",
       "var=${aws_instance.swarm-manager[count.index].private_ip}",
       "var2=$(echo $var | sed s/[.]/-/g)",      
@@ -95,8 +96,8 @@ resource "aws_instance" "swarm-worker" {
   provisioner "remote-exec" {
     inline = [      
       "sudo chmod 400 /home/ubuntu/attract_key.pem",
-      "sudo scp -o StrictHostKeyChecking=no -o NoHostAuthenticationForLocalhost=yes -o UserKnownHostsFile=/dev/null -i attract_key.pem ubuntu@${aws_instance.swarm-manager[count.index].private_ip}:/home/ubuntu/token .",
-      "sudo docker swarm join --token $(cat /home/ubuntu/token) ${aws_instance.swarm-manager[count.index].private_ip}:2377",
+      "sudo scp -o StrictHostKeyChecking=no -o NoHostAuthenticationForLocalhost=yes -o UserKnownHostsFile=/dev/null -i attract_key.pem ubuntu@${aws_instance.swarm-manager[count.index].private_ip}:/home/ubuntu/token-worker .",
+      "sudo docker swarm join --token $(cat /home/ubuntu/token-worker) ${aws_instance.swarm-manager[count.index].private_ip}:2377",
       "docker node ls",
       "var=${aws_instance.swarm-manager[count.index].private_ip}",
       "var2=$(echo $var | sed s/[.]/-/g)",      
