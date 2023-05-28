@@ -45,7 +45,10 @@ resource "aws_instance" "swarm-manager" {
       "docker swarm init", 
       "docker swarm join-token --quiet worker > /home/ubuntu/token",
       "docker node ls",
-      "docker node update --label-add manager=yes  ip-${aws_instance.swarm-manager[count.index].private_ip//./-}"
+      "var1=1.1.1.1",
+      "echo $var1",
+      "var2=2.2.2.2; echo $var2",
+      "docker node update --label-add manager=yes  ip-${aws_instance.swarm-manager[count.index].private_ip}"
     ]
       
   }
@@ -96,7 +99,7 @@ resource "aws_instance" "swarm-worker" {
       "sudo scp -o StrictHostKeyChecking=no -o NoHostAuthenticationForLocalhost=yes -o UserKnownHostsFile=/dev/null -i attract_key.pem ubuntu@${aws_instance.swarm-manager[count.index].private_ip}:/home/ubuntu/token .",
       "sudo docker swarm join --token $(cat /home/ubuntu/token) ${aws_instance.swarm-manager[count.index].private_ip}:2377",
       "docker node ls",
-      "docker node update --label-add worker=yes ip-${aws_instance.swarm-manager[count.index].private_ip//./-}"
+      "docker node update --label-add worker=yes ip-${aws_instance.swarm-manager[count.index].private_ip}"
     ]
   }
   

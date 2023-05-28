@@ -208,7 +208,7 @@ resource "null_resource" "worker2" {
 }*/
 
 
-Ressource Definition
+//Ressource Definition
 
 resource "aws_instance" "swarm" {
   ami           = "ami-0cff7528ff583bf9a"
